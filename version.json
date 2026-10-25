@@ -1,8 +1,7 @@
 
 {
-  "version": "1.9",
-  "name": "coast_library_beta.1.apk",
+  "app_name": "Coast Library Beta",
+  "version": "2.0",
   "download_url": "https://github.com/ghostpsss/G/releases/latest",
-  "changelog": "تحسينات وإصلاحات وتحديث فاحص الإصدارات",
-  "force_update": false
+  "changelog": "تحديث من الإصدار 1.9 إلى 2.0"
 }
