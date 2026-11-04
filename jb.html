@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" manifest="cache.appcache">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ghost Edition · Activating</title>
+    <style>
+:root{color-scheme:dark;--gold:#e6b84a;--gold2:#ffdc7b;--bg:#080a0f;--panel:#11151d;--line:#2c2618;--text:#f3f5f8;--muted:#a1a8b5}
+*{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100%;background:radial-gradient(ellipse at top,#1b1a14 0,#0a0c11 48%,var(--bg) 100%);color:var(--text);font:15px/1.45 "Segoe UI",system-ui,sans-serif}
+#brand{display:flex;align-items:center;justify-content:center;gap:12px;padding:18px 16px;background:rgba(7,9,13,.9);border-bottom:1px solid var(--line)}#brand img{width:46px;height:46px;object-fit:cover;border:1px solid #6c5524;border-radius:14px;background:#151515}#brand b{font-size:clamp(18px,4vw,23px);font-weight:850;letter-spacing:.12em;color:var(--gold2)}
+#spin{position:fixed;top:calc(50% + 20px);left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border:4px solid #28251c;border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#msg{position:fixed;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-size:16px;letter-spacing:.5px;display:none;padding:0 18px}#wrap{padding:0}#state,#out{display:none}body.done #spin,body.fail #spin{display:none}body.fail #msg{display:block;color:#ff9b9b}body.done #msg{display:block;color:#80e0ad;font-weight:800;letter-spacing:2px}body.log #spin,body.log #msg{display:none}body.log #wrap{padding:14px 18px}body.log #state{display:block;font-size:22px;font-weight:700;margin:0 0 8px}body.log #out{display:block;white-space:pre-wrap;font:12px/1.45 Consolas,monospace;background:#11151b;border:1px solid var(--line);border-radius:10px;padding:10px 12px;height:calc(100vh - 141px);overflow-y:auto}.ok,.safe{color:#80e0ad}.bad,.danger{color:#ff8f8f}.warn{color:var(--gold2)}code{color:#9fb3d0}
+</style>
+  </head>
+  <body>
+    <div id="brand">
+      <img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost Edition logo" onerror="this.onerror=null;this.src='logo_raw.png'"><b>GHOST EDITION</b>
+    </div>
+    <div id="spin"></div>
+    <div id="msg">Restart your console</div>
+    <div id="wrap">
+      <div id="state"></div>
+      <div id="out"></div>
+    </div>
+    <script type="module">
+      import "./jb.js?v=19";
+    </script>
+  </body>
+</html>
