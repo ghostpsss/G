@@ -41,6 +41,13 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 #youtube-gate-link:focus{outline:2px solid #c29aff;outline-offset:3px}
 @media(max-width:650px){#brand{padding:15px 16px}#wrap{padding:0 15px 24px}.features{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:24px 14px}.feature{padding:16px 8px}#launch{font-size:17px}}
 
+
+#gate-lock{width:76px;height:76px;margin:0 auto 12px;display:grid;place-items:center;border:1px solid #8e62c8;border-radius:22px;background:linear-gradient(145deg,#24133d,#100b1c);box-shadow:0 0 28px #8b32ff55;color:#d8c2ff;font-size:34px;transition:opacity .25s}
+#gate-lock.unlocked{animation:lockDrop .85s cubic-bezier(.55,.05,.9,.45) forwards}
+@keyframes lockDrop{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translateY(25px) rotate(12deg);opacity:1}100%{transform:translateY(150vh) rotate(65deg);opacity:0}}
+#gate-status{color:#cdb8f5;font-size:13px;margin:8px 0}
+#launch:disabled{opacity:.48;filter:grayscale(.5)}
+
 </style>
 </head>
 <body>
@@ -53,7 +60,7 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 <div class="feature"><div class="ico">⬡</div><strong>واجهة مرتبة</strong><small>تصميم داكن بنفسجي</small></div>
 <div class="feature"><div class="ico">✦</div><strong>حالة النظام</strong><small>فحص إصدار النظام قبل المتابعة</small></div>
 <div class="feature"><div class="ico">⚙</div><strong>ملفات الاستضافة</strong><small>حسب الملفات الموجودة بالمشروع</small></div></section>
-<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><div id="loadlabel">Preparing download…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
+<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><div id="gate-lock" aria-hidden="true">🔒</div><div id="gate-status">القفل مغلق — افتح YouTube ثم ارجع للموقع</div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><div id="loadlabel">Preparing download…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
 <section id="contact-screen" aria-live="polite"><div class="contact-card"><div class="contact-mark">👻</div><h2>Ghost Edition</h2><p>تابع حساباتنا الرسمية وتواصل ويانه</p><div class="contact-links"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">♪ TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ YouTube · Shadow Ghost</a></div></div></section>
 </main><footer class="footer"><div class="footer-title">CONTACT / تواصل ويانه</div><div class="socials"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">YouTube · Shadow Ghost</a></div>GHOST EDITION · PS4 HOST</footer>
 <script>
@@ -90,6 +97,199 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
     var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
     detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
         + (supported ? " &middot; <b>supported</b>"
+                     : " &middot; not in this build's kernel table");
+
+    var target = "jb.html" + location.search;
+    function go() {
+        // Continue to the actual host page after the user presses Activate.
+        // Keep the existing query string (including any firmware/debug flags).
+        window.location.href = target;
+    }
+
+    var youtubeGateLink = document.getElementById("youtube-gate-link");
+    var youtubeGateHint = document.getElementById("youtube-gate-hint");
+    var gateLock = document.getElementById("gate-lock");
+    var gateStatus = document.getElementById("gate-status");
+    var gatePassed = false;
+    var audioContext = null;
+
+    function playUnlockChime() {
+        // Original short confirmation chime; browsers may suppress audio unless
+        // audio was initialized by the user's YouTube-link tap.
+        try {
+            var Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return;
+            audioContext = audioContext || new Ctx();
+            var now = audioContext.currentTime;
+            [880, 1174].forEach(function (freq, i) {
+                var osc = audioContext.createOscillator();
+                var gain = audioContext.createGain();
+                osc.type = "sine";
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.0001, now + i * 0.11);
+                gain.gain.exponentialRampToValueAtTime(0.13, now + i * 0.11 + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.11 + 0.22);
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.start(now + i * 0.11);
+                osc.stop(now + i * 0.11 + 0.24);
+            });
+        } catch (e) {}
+    }
+
+    function unlockGate() {
+        if (gatePassed) return;
+        var opened = false;
+        try { opened = sessionStorage.getItem("ghost_youtube_opened") === "1"; } catch (e) {}
+        if (!opened) return;
+
+        gatePassed = true;
+        try {
+            sessionStorage.setItem("ghost_youtube_returned", "1");
+            sessionStorage.removeItem("ghost_youtube_opened");
+        } catch (e) {}
+
+        if (gateLock) {
+            gateLock.classList.remove("unlocked");
+            // Restart the animation if the browser restores this page from cache.
+            void gateLock.offsetWidth;
+            gateLock.classList.add("unlocked");
+        }
+        if (gateStatus) gateStatus.textContent = "تم فتح القفل — زر التعديل صار جاهز";
+        if (youtubeGateHint) youtubeGateHint.textContent = "أهلاً بعودتك — تم فتح القفل.";
+        if (launchBtn) {
+            launchBtn.disabled = false;
+            launchBtn.textContent = "Activate exploit";
+        }
+        if (audioContext && audioContext.state === "suspended") {
+            audioContext.resume().then(playUnlockChime).catch(function () {});
+        } else {
+            playUnlockChime();
+        }
+    }
+
+    try { gatePassed = sessionStorage.getItem("ghost_youtube_returned") === "1"; } catch (e) {}
+    if (gatePassed) {
+        if (gateLock) gateLock.style.display = "none";
+        if (gateStatus) gateStatus.textContent = "القفل مفتوح";
+        if (youtubeGateHint) youtubeGateHint.textContent = "رجعت من YouTube — تگدر هسه تضغط زر التفعيل.";
+        launchBtn.disabled = false;
+    } else {
+        launchBtn.disabled = true;
+        launchBtn.textContent = "افتح YouTube أولاً";
+    }
+
+    if (youtubeGateLink) {
+        youtubeGateLink.addEventListener("click", function () {
+            try { sessionStorage.setItem("ghost_youtube_opened", "1"); } catch (e) {}
+            // Create/resume the audio context during a direct user gesture.
+            try {
+                var Ctx = window.AudioContext || window.webkitAudioContext;
+                if (Ctx) {
+                    audioContext = audioContext || new Ctx();
+                    if (audioContext.state === "suspended") audioContext.resume();
+                }
+            } catch (e) {}
+            if (youtubeGateHint) youtubeGateHint.textContent = "افتح YouTube وبعدها ارجع لنفس الصفحة.";
+        });
+    }
+
+    document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") unlockGate();
+    });
+    window.addEventListener("focus", unlockGate);
+    window.addEventListener("pageshow", unlockGate);
+
+    function waitForTap(msg, action) {
+        setState(msg, /UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "bad" : "warn");
+        launchBtn.disabled = !gatePassed;
+        launchBtn.textContent = !gatePassed ? "افتح YouTube أولاً" : (/UPDATE READY/i.test(msg) ? "Reload to apply update" : (/UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "Run anyway" : "Activate exploit"));
+        launchBtn.onclick = function () {
+            if (!gatePassed) {
+                if (youtubeGateHint) youtubeGateHint.textContent = "لازم تفتح رابط YouTube وترجع للموقع أولاً.";
+                return;
+            }
+            launchBtn.disabled = true;
+            launchBtn.onclick = null;
+            launchBtn.textContent = "Downloading… please wait";
+            launchBtn.classList.add("loading-note");
+            setState("Preparing files…", "warn");
+            setCache("Please wait while the host prepares", false);
+            loadBox.style.display = "block";
+            loadFill.style.width = "0%";
+            loadPercent.textContent = "0%";
+            var started = Date.now();
+            var duration = 1800;
+            var progressTimer = window.setInterval(function () {
+                var pct = Math.min(100, Math.round(((Date.now() - started) / duration) * 100));
+                loadFill.style.width = pct + "%";
+                loadPercent.textContent = pct + "%";
+                loadLabel.textContent = pct < 100 ? "Preparing download…" : "Ready — launching host…";
+                if (pct >= 100) {
+                    window.clearInterval(progressTimer);
+                    action();
+                }
+            }, 45);
+        };
+    }
+
+    // Off-target consoles require explicit confirmation through the launch button.
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        waitForTap("UNSUPPORTED (" + (key || "unknown") + ") -- press X or tap to run anyway", go);
+        return;
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        waitForTap("Host ready — press the button to continue", go);
+    } else if (!navigator.onLine) {
+        setCache("offline — using cached files", true);
+        waitForTap("Offline cache ready — press the button to continue", go);
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        waitForTap("Host ready — press the button to activate", go);
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        waitForTap("UPDATE READY — reload to apply the latest files",
+                   function () { location.reload(); });
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            waitForTap("Cache ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            waitForTap("UPDATE READY — reload to apply the latest files",
+                       function () { location.reload(); });
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("cached — offline ready", true);
+            waitForTap("Host ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            waitForTap("Cache unavailable — you can try to continue", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            waitForTap("Cache is obsolete — you can try to continue", go);
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>
+"
                      : " &middot; not in this build's kernel table");
 
     var target = "jb.html" + location.search;
