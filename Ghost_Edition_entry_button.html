@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Edition</title>
+<style>
+
+:root{--bg:#05060b;--purple:#8b32ff;--text:#f4f0ff;--muted:#aaa4c2;--green:#25e79a}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05060b;color:var(--text);font-family:Arial,"Segoe UI",sans-serif}
+body{background:radial-gradient(ellipse at 50% 20%,#17102d 0,transparent 42%),linear-gradient(180deg,#05060b,#080711 55%,#040509)}
+#brand{max-width:1120px;margin:auto;padding:20px 26px;display:flex;align-items:center;gap:13px;border-bottom:1px solid #211a35}
+#brand img{width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 0 10px #8b32ff)}
+#brand b{font-size:22px}#brand b:after{content:" PS4 HOST";display:block;color:#9f93b9;font-size:10px;letter-spacing:.25em;font-weight:400;margin-top:4px}
+#wrap{max-width:1120px;margin:0 auto;padding:0 26px 30px}.eyebrow{text-align:center;color:#b8a4e8;font-size:12px;letter-spacing:.24em;margin:28px 0 12px}
+h1{text-align:center;font-size:clamp(32px,6vw,64px);line-height:1.04;margin:0;font-weight:900;letter-spacing:-.04em}
+h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#state{text-align:center;color:#c9bddf;margin:14px 0 7px;font-size:14px}#det,#cache{text-align:center;color:#a99cbd;font-size:12px;min-height:18px;margin:6px 0}
+#det b{color:#d9c6ff}#cache.cacheok{color:var(--green)}.ok{color:var(--green)}.bad{color:#ff718a}.warn{color:#c9a8ff}
+.hero{position:relative;overflow:hidden;min-height:210px;margin:24px 0 22px;padding:28px 22px;border:1px solid #3c2364;border-radius:20px;text-align:center;background:radial-gradient(ellipse at 50% 120%,#5d19bc66,transparent 60%),linear-gradient(130deg,#0d0a18,#090911 65%,#160a25);box-shadow:0 0 38px #6e20e51b,inset 0 0 28px #5e27a21a}
+.hero-icon{font-size:48px;filter:drop-shadow(0 0 16px #8b32ff);margin:0 0 8px}.hero p{margin:10px auto 0;color:#c0b4d5;font-size:14px}
+.features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 28px}
+.feature{padding:20px 12px;text-align:center;border:1px solid #28213b;border-radius:13px;background:linear-gradient(145deg,#0c0d16,#080910)}
+.feature .ico{font-size:26px;color:#a66bff;text-shadow:0 0 15px #7c2cff;margin-bottom:10px}.feature strong{display:block;font-size:14px;margin-bottom:7px}.feature small{font-size:11px;color:#a7a0bb}
+#launch{display:block;width:min(100%,470px);min-height:64px;margin:18px auto 0;padding:16px 20px;border:1px solid #b68bff;border-radius:40px;background:linear-gradient(110deg,#6818e8,#8b2dff,#5310d7);color:white;font:800 19px/1.2 Arial,"Segoe UI",sans-serif;box-shadow:0 0 28px #7829ff65,inset 0 1px #ffffff44;cursor:pointer;transition:transform .15s,filter .15s}
+#launch:active{transform:scale(.985)}#launch:disabled{opacity:.58;cursor:wait;filter:grayscale(.35)}
+.hint{text-align:center;color:#a79db8;font-size:12px;margin:16px 0 0}.footer{text-align:center;color:#746b87;font-size:11px;margin:0 auto;padding:22px 18px 30px;letter-spacing:.08em;border-top:1px solid #211a35;max-width:1120px}.footer-title{color:#cbb7f4;font-size:13px;letter-spacing:.12em;margin-bottom:12px}.socials{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.socials a{display:inline-block;padding:10px 15px;border:1px solid #49306c;border-radius:24px;color:#eee4ff;text-decoration:none;background:#130d20;letter-spacing:0;font-size:12px}.socials a:hover{border-color:#a66bff;background:#211033}.loading-note{color:#d7c3ff}
+#contact-screen{display:none;min-height:65vh;align-items:center;justify-content:center;padding:28px 14px;text-align:center}
+.contact-card{width:min(100%,560px);padding:34px 22px;border:1px solid #59358a;border-radius:22px;background:radial-gradient(ellipse at 50% 0%,#55209b55,transparent 65%),linear-gradient(145deg,#100b1c,#080910);box-shadow:0 0 42px #7829ff2b}
+.contact-card h2{font-size:clamp(27px,5vw,42px);margin:8px 0 10px;background:linear-gradient(100deg,#fff,#b78aff 60%,#792cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact-card p{color:#bdb0d2;line-height:1.7;font-size:14px}
+.contact-links{display:grid;gap:13px;margin:24px auto 0;max-width:390px}
+.contact-links a{display:block;padding:17px 16px;border:1px solid #68449b;border-radius:14px;background:linear-gradient(110deg,#201034,#120c20);color:#f5edff;text-decoration:none;font-weight:700;font-size:16px;box-shadow:0 0 18px #7829ff17}
+.contact-links a:hover{border-color:#b68bff;background:#291440}
+.contact-mark{font-size:44px;filter:drop-shadow(0 0 14px #8b32ff)}
+#loadbox{display:none;width:min(100%,470px);margin:14px auto 0;text-align:center;color:#d7c3ff;font-size:12px}
+#loadtrack{height:10px;margin-top:9px;background:#211632;border:1px solid #49306c;border-radius:99px;overflow:hidden}
+#loadfill{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#6818e8,#c29aff);box-shadow:0 0 12px #8b32ff;transition:width .06s linear}
+#loadpercent{display:block;margin-top:7px;font-variant-numeric:tabular-nums}
+#youtube-gate-link{display:inline-flex;align-items:center;justify-content:center;margin:10px auto 0;padding:12px 18px;border:1px solid #7944b8;border-radius:12px;color:#f1e6ff;text-decoration:none;background:linear-gradient(135deg,#28113f,#171020);font-weight:700;box-shadow:0 0 18px #6f2bb333}
+#youtube-gate-link:focus{outline:2px solid #c29aff;outline-offset:3px}
+@media(max-width:650px){#brand{padding:15px 16px}#wrap{padding:0 15px 24px}.features{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:24px 14px}.feature{padding:16px 8px}#launch{font-size:17px}}
+
+
+#goldhen-entry{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(ellipse at 50% 20%,#28134b 0,transparent 55%),rgba(3,3,8,.98);text-align:center}
+#goldhen-entry .entry-card{width:min(100%,520px);padding:34px 22px;border:1px solid #7043a7;border-radius:22px;background:linear-gradient(145deg,#130d20,#080910);box-shadow:0 0 42px #7829ff55}
+#goldhen-entry .entry-ghost{font-size:54px;filter:drop-shadow(0 0 16px #8b32ff);margin-bottom:12px}
+#goldhen-entry h2{font-size:clamp(27px,5vw,40px);margin:8px 0 12px;color:#eee4ff}
+#goldhen-entry p{color:#c0b4d5;line-height:1.8;font-size:14px;margin:0 0 22px}
+#goldhen-entry button{width:100%;min-height:58px;padding:14px 18px;border:1px solid #b68bff;border-radius:40px;background:linear-gradient(110deg,#6818e8,#8b2dff,#5310d7);color:#fff;font:800 18px Arial,sans-serif;box-shadow:0 0 28px #7829ff65;cursor:pointer}
+#goldhen-entry .entry-note{display:block;margin-top:14px;color:#9285a9;font-size:11px}
+
+</style>
+</head>
+<body>
+<div id="goldhen-entry" role="dialog" aria-modal="true" aria-labelledby="entry-title">
+  <div class="entry-card">
+    <div class="entry-ghost">👻</div>
+    <h2 id="entry-title">Ghost Edition</h2>
+    <p>اضغط الزر بالأسفل للمتابعة إلى صفحة استضافة PS4 وإكمال خطوات GoldHEN.</p>
+    <button id="goldhen-entry-button" type="button">متابعة إلى GoldHEN</button>
+    <span class="entry-note">تظهر هذه الشاشة عند كل دخول جديد للموقع</span>
+  </div>
+</div>
+
+<header id="brand"><img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost Edition logo" onerror="this.onerror=null;this.src='logo_raw.png'"><b>Ghost Edition</b></header>
+<main id="wrap">
+<p class="eyebrow">PlayStation 4 · Host Menu</p>
+<section class="hero"><div class="hero-icon">☠</div><h1><span>Ghost Edition</span><br>PS4 Host</h1><p>واجهة احترافية لاستضافة ملفات التفعيل على أجهزة PS4</p><p>More Freedom · More Control · Ghost Edition</p></section>
+<section class="features" aria-label="ميزات الموقع">
+<div class="feature"><div class="ico">ϟ</div><strong>تفعيل الثغرة</strong><small>من خلال ملفات الاستضافة الأصلية</small></div>
+<div class="feature"><div class="ico">⬡</div><strong>واجهة مرتبة</strong><small>تصميم داكن بنفسجي</small></div>
+<div class="feature"><div class="ico">✦</div><strong>حالة النظام</strong><small>فحص إصدار النظام قبل المتابعة</small></div>
+<div class="feature"><div class="ico">⚙</div><strong>ملفات الاستضافة</strong><small>حسب الملفات الموجودة بالمشروع</small></div></section>
+<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><div id="loadlabel">Preparing download…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
+<section id="contact-screen" aria-live="polite"><div class="contact-card"><div class="contact-mark">👻</div><h2>Ghost Edition</h2><p>تابع حساباتنا الرسمية وتواصل ويانه</p><div class="contact-links"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">♪ TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ YouTube · Shadow Ghost</a></div></div></section>
+</main><footer class="footer"><div class="footer-title">CONTACT / تواصل ويانه</div><div class="socials"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">YouTube · Shadow Ghost</a></div>GHOST EDITION · PS4 HOST</footer>
+<script>
+
+(function(){
+  var gate=document.getElementById("goldhen-entry");
+  var button=document.getElementById("goldhen-entry-button");
+  if(button && gate){
+    button.addEventListener("click",function(){
+      gate.style.display="none";
+    });
+  }
+})();
+
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    var launchBtn = document.getElementById("launch");
+    var loadBox = document.getElementById("loadbox");
+    var loadFill = document.getElementById("loadfill");
+    var loadPercent = document.getElementById("loadpercent");
+    var loadLabel = document.getElementById("loadlabel");
+    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search);
+
+    // Firmwares this build has a MEASURED kernel table for. jb.js still runs its
+    // own kernel-table-present gate, so this is UX only -- an unlisted firmware
+    // can still be launched with a tap. KEEP IN SYNC with ps4_offsets.js: add a
+    // fwnum here in the SAME commit that fills that firmware's kernel RVAs.
+    // The PS4 reports its minor as two hex digits in the UA (13.52 -> minor 0x52).
+    var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 }; // all measured on hardware
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var ms = parseInt(m[2], 16).toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var forced = params.get("force") === "1";
+    var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + (supported ? " &middot; <b>supported</b>"
+                     : " &middot; not in this build's kernel table");
+
+    var target = "jb.html" + location.search;
+    function go() {
+        // Continue to the actual host page after the user presses Activate.
+        // Keep the existing query string (including any firmware/debug flags).
+        window.location.href = target;
+    }
+
+    var youtubeGateLink = document.getElementById("youtube-gate-link");
+    var youtubeGateHint = document.getElementById("youtube-gate-hint");
+    var returnedFromYouTube = false;
+    try { returnedFromYouTube = sessionStorage.getItem("ghost_youtube_returned") === "1"; } catch (e) {}
+    if (returnedFromYouTube) {
+        launchBtn.disabled = false;
+        if (youtubeGateHint) youtubeGateHint.textContent = "رجعت من YouTube — تگدر هسه تضغط زر التفعيل.";
+    } else {
+        launchBtn.disabled = true;
+        launchBtn.textContent = "افتح YouTube أولاً";
+    }
+    if (youtubeGateLink) {
+        youtubeGateLink.addEventListener("click", function () {
+            try { sessionStorage.setItem("ghost_youtube_opened", "1"); } catch (e) {}
+            if (youtubeGateHint) youtubeGateHint.textContent = "افتح الرابط، وبعدها ارجع لهالصفحة حتى يتفعل الزر.";
+        });
+    }
+    document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") {
+            var opened = false;
+            try { opened = sessionStorage.getItem("ghost_youtube_opened") === "1"; } catch (e) {}
+            if (opened) {
+                try { sessionStorage.setItem("ghost_youtube_returned", "1"); } catch (e) {}
+                if (youtubeGateHint) youtubeGateHint.textContent = "رجعت من YouTube — تگدر هسه تضغط زر التفعيل.";
+                if (launchBtn && launchBtn.textContent === "افتح YouTube أولاً") {
+                    launchBtn.disabled = false;
+                    launchBtn.textContent = "Activate exploit";
+                }
+            }
+        }
+    });
+
+    function waitForTap(msg, action) {
+        setState(msg, /UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "bad" : "warn");
+        launchBtn.disabled = false;
+        launchBtn.textContent = /UPDATE READY/i.test(msg) ? "Reload to apply update" : (/UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "Run anyway" : "Activate exploit");
+        launchBtn.onclick = function () {
+            var gatePassed = false;
+            try { gatePassed = sessionStorage.getItem("ghost_youtube_returned") === "1"; } catch (e) {}
+            if (!gatePassed) {
+                if (youtubeGateHint) youtubeGateHint.textContent = "لازم تفتح رابط YouTube وترجع للموقع أولاً.";
+                return;
+            }
+            launchBtn.disabled = true;
+            launchBtn.onclick = null;
+            launchBtn.textContent = "Downloading… please wait";
+            launchBtn.classList.add("loading-note");
+            setState("Preparing files…", "warn");
+            setCache("Please wait while the host prepares", false);
+            loadBox.style.display = "block";
+            loadFill.style.width = "0%";
+            loadPercent.textContent = "0%";
+            var started = Date.now();
+            var duration = 1800;
+            var progressTimer = window.setInterval(function () {
+                var pct = Math.min(100, Math.round(((Date.now() - started) / duration) * 100));
+                loadFill.style.width = pct + "%";
+                loadPercent.textContent = pct + "%";
+                loadLabel.textContent = pct < 100 ? "Preparing download…" : "Ready — launching host…";
+                if (pct >= 100) {
+                    window.clearInterval(progressTimer);
+                    action();
+                }
+            }, 45);
+        };
+    }
+
+    // Off-target consoles require explicit confirmation through the launch button.
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        waitForTap("UNSUPPORTED (" + (key || "unknown") + ") -- press X or tap to run anyway", go);
+        return;
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        waitForTap("Host ready — press the button to continue", go);
+    } else if (!navigator.onLine) {
+        setCache("offline — using cached files", true);
+        waitForTap("Offline cache ready — press the button to continue", go);
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        waitForTap("Host ready — press the button to activate", go);
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        waitForTap("UPDATE READY — reload to apply the latest files",
+                   function () { location.reload(); });
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            waitForTap("Cache ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            waitForTap("UPDATE READY — reload to apply the latest files",
+                       function () { location.reload(); });
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("cached — offline ready", true);
+            waitForTap("Host ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            waitForTap("Cache unavailable — you can try to continue", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            waitForTap("Cache is obsolete — you can try to continue", go);
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>
