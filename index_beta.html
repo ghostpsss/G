@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Edition</title>
+<style>
+:root{color-scheme:dark;--bg:#07090d;--panel:#11151d;--line:#2c2618;--gold:#e6b84a;--gold2:#ffdc7b;--text:#f3f5f8;--muted:#a1a8b5;--green:#80e0ad;--red:#ff8f8f}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at top,#1b1a14 0,#0a0c11 48%,var(--bg) 100%);color:var(--text);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
+body{min-height:100vh;display:flex;flex-direction:column}#brand{display:flex;align-items:center;justify-content:center;gap:12px;padding:18px 16px;border-bottom:1px solid var(--line);background:rgba(7,9,13,.82);box-shadow:0 8px 30px #0005}
+#brand img{width:46px;height:46px;object-fit:cover;border:1px solid #6c5524;border-radius:14px;background:#151515;box-shadow:0 0 22px #e6b84a18}#brand .brand-copy{display:flex;flex-direction:column;align-items:flex-start;gap:2px}#brand b{font-size:clamp(18px,4vw,23px);font-weight:850;letter-spacing:.12em;color:var(--gold2);text-shadow:0 0 20px #e6b84a22}#brand small{font-size:12px;color:var(--muted);letter-spacing:0;direction:rtl}
+#wrap{width:min(100% - 28px,620px);margin:clamp(24px,7vh,64px) auto 28px;padding:clamp(20px,5vw,34px);border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#151922f5,#0c0f15f5);box-shadow:0 24px 80px #0007;position:relative;overflow:hidden}
+#wrap:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}.eyebrow{text-align:center;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;margin:0 0 10px}
+h1{margin:0 0 22px;text-align:center;font-size:clamp(25px,6vw,35px);line-height:1.15;letter-spacing:-.03em}h1 span{color:var(--gold2)}#state{font-size:18px;font-weight:750;text-align:center;margin:0 0 10px;overflow-wrap:anywhere}#det{text-align:center;color:var(--muted);font-size:13px;margin:0 0 8px}#det b{color:#f4d98e;font-weight:700}#cache{text-align:center;color:#9299a6;font-size:12px;min-height:18px;margin:0 0 24px}#cache.cacheok{color:var(--green)}.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--gold2)}
+#launch{display:block;width:100%;min-height:56px;padding:15px 20px;border:1px solid #f7d47b;border-radius:14px;background:linear-gradient(135deg,#f4d47a,#d69b2b);color:#171108;font:800 16px/1.2 "Segoe UI",system-ui,sans-serif;letter-spacing:.04em;box-shadow:0 10px 30px #e6b84a24;cursor:pointer;transition:transform .15s,filter .15s}#launch:active{transform:scale(.985)}#launch:disabled{opacity:.5;cursor:wait;filter:grayscale(.35)}.hint{text-align:center;color:#8e96a4;font-size:12px;margin:16px 0 0}.footer{text-align:center;color:#69717e;font-size:11px;margin-top:auto;padding:12px 18px 22px;letter-spacing:.08em}
+@media(max-width:420px){#brand{padding:14px 12px}#brand img{width:40px;height:40px}#wrap{border-radius:19px}}
+</style>
+</head>
+<body>
+<div id="brand"><img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost Edition logo" onerror="this.onerror=null;this.src='logo_raw.png'"><div class="brand-copy"><b>GHOST EDITION</b><small>الإصدار التجريبي</small></div></div>
+<div id="wrap">
+  <p class="eyebrow">PlayStation 4 · Host Menu</p>
+  <h1>Welcome to <span>Ghost Edition</span></h1>
+  <div id="state">Detecting firmware…</div>
+  <div id="det"></div>
+  <div id="cache"></div>
+  <button id="launch" type="button" disabled>Preparing host…</button>
+  <p class="hint">Keep this page open while the host checks its cache.</p>
+</div>
+<div class="footer">GHOST EDITION · PS4 HOST</div>
+
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    var launchBtn = document.getElementById("launch");
+    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search);
+
+    // Firmwares this build has a MEASURED kernel table for. jb.js still runs its
+    // own kernel-table-present gate, so this is UX only -- an unlisted firmware
+    // can still be launched with a tap. KEEP IN SYNC with ps4_offsets.js: add a
+    // fwnum here in the SAME commit that fills that firmware's kernel RVAs.
+    // The PS4 reports its minor as two hex digits in the UA (13.52 -> minor 0x52).
+    var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 }; // all measured on hardware
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var ms = parseInt(m[2], 16).toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var forced = params.get("force") === "1";
+    var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + (supported ? " &middot; <b>supported</b>"
+                     : " &middot; not in this build's kernel table");
+
+    var target = "jb.html" + location.search;
+    function go() { setState("Launching host…", "warn"); launchBtn.disabled = true; location.replace(target); }
+
+    function waitForTap(msg, action) {
+        setState(msg, /UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "bad" : "warn");
+        launchBtn.disabled = false;
+        launchBtn.textContent = /UPDATE READY/i.test(msg) ? "Reload to apply update" : (/UNSUPPORTED|FAILED|OBSOLETE/i.test(msg) ? "Run anyway" : "Activate exploit");
+        launchBtn.onclick = function () {
+            launchBtn.disabled = true;
+            launchBtn.onclick = null;
+            action();
+        };
+    }
+
+    // Off-target consoles require explicit confirmation through the launch button.
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        waitForTap("UNSUPPORTED (" + (key || "unknown") + ") -- press X or tap to run anyway", go);
+        return;
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        waitForTap("Host ready — press the button to continue", go);
+    } else if (!navigator.onLine) {
+        setCache("offline — using cached files", true);
+        waitForTap("Offline cache ready — press the button to continue", go);
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        waitForTap("Host ready — press the button to activate", go);
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        waitForTap("UPDATE READY — reload to apply the latest files",
+                   function () { location.reload(); });
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            waitForTap("Cache ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            waitForTap("UPDATE READY — reload to apply the latest files",
+                       function () { location.reload(); });
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("cached — offline ready", true);
+            waitForTap("Host ready — press the button to activate", go);
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            waitForTap("Cache unavailable — you can try to continue", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            waitForTap("Cache is obsolete — you can try to continue", go);
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>
