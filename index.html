@@ -51,7 +51,7 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 
 
 /* Firmware 14.2 HOT guide */
-#hot-guide-btn{display:block;width:min(100%,470px);min-height:62px;margin:18px auto 8px;padding:15px 18px;border:1px solid #ff6969;border-radius:16px;background:linear-gradient(110deg,#8e101d,#ed252f,#76101a);color:#fff;font:900 19px Arial,sans-serif;box-shadow:0 0 25px #ff263955;cursor:pointer}
+.main-actions{display:flex;align-items:stretch;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px auto;max-width:760px}.main-actions #launch,.main-actions #hot-guide-btn{flex:1 1 260px;width:auto;min-height:62px;margin:0}#hot-guide-btn{display:block;width:min(100%,470px);min-height:62px;margin:18px auto 8px;padding:15px 18px;border:1px solid #ff6969;border-radius:16px;background:linear-gradient(110deg,#8e101d,#ed252f,#76101a);color:#fff;font:900 19px Arial,sans-serif;box-shadow:0 0 25px #ff263955;cursor:pointer}
 #hot-guide{display:none;position:fixed;inset:0;z-index:9999;background:#05050bea;overflow:auto;padding:18px}
 .hot-panel{width:min(100%,680px);margin:20px auto;padding:22px;border:1px solid #71304b;border-radius:18px;background:linear-gradient(145deg,#17101c,#080910);box-shadow:0 0 35px #d21d3540}
 .hot-panel h2{margin:0 0 8px;text-align:center;color:#ff6676;font-size:25px}.hot-intro{color:#d6c8d2;text-align:center;line-height:1.7;font-size:14px}
@@ -72,16 +72,15 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 <div class="feature"><div class="ico">⬡</div><strong>واجهة مرتبة</strong><small>تصميم داكن بنفسجي</small></div>
 <div class="feature"><div class="ico">✦</div><strong>حالة النظام</strong><small>فحص إصدار النظام قبل المتابعة</small></div>
 <div class="feature"><div class="ico">⚙</div><strong>ملفات الاستضافة</strong><small>حسب الملفات الموجودة بالمشروع</small></div></section>
-<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><img id="ghost-loading-gif" src="ghost_loading.gif" alt="Ghost loading animation"><div id="loadlabel">جاري التحميل…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
+<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><div class="main-actions"><button id="launch" type="button" disabled>Preparing host…</button><button id="hot-guide-btn" type="button">تعديل 14.2 🔥</button></div><div id="loadbox" aria-live="polite"><img id="ghost-loading-gif" src="ghost_loading.gif" alt="Ghost loading animation"><div id="loadlabel">جاري التحميل…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
 
-<button id="hot-guide-btn" type="button">🔥 نظام 14.2 HOT — نصائح وإعدادات الجهاز</button>
 <div id="hot-guide" role="dialog" aria-modal="true" aria-labelledby="hot-title"><div class="hot-panel">
 <h2 id="hot-title">🔥 نظام 14.2 HOT</h2><p class="hot-intro">اقرأ الملاحظات وراجع الإعدادات. علّم على كل خطوة بعد إكمال مراجعتها حتى يظهر زر المتابعة.</p>
 <div class="hot-warning">تنبيه مهم: التهيئة السريعة تمسح بيانات المستخدم والإعدادات من الجهاز. لا تنفذها لمجرد الحماية؛ إذا قررت استخدامها فانسخ بياناتك احتياطياً أولاً.</div>
-<div class="hot-step"><h3>1 — التهيئة السريعة (اختيارية)</h3><p>التهيئة السريعة تحذف بيانات المستخدم. لا تسوّيها لمجرد الحماية؛ خذ نسخة احتياطية أولاً ولا تكمل إلا إذا كنت متأكداً.</p><label class="hot-check"><input type="checkbox" class="hot-done"> قرأت التحذير وفهمت أن التهيئة تحذف البيانات.</label></div>
-<div class="hot-step"><h3>2 — التنزيلات التلقائية</h3><p>من الإعدادات، افتح إعدادات النظام ثم التنزيلات التلقائية، وراجع الخيارات وأوقف ما لا تريد تنزيله تلقائياً.</p><label class="hot-check"><input type="checkbox" class="hot-done"> راجعت إعدادات التنزيلات التلقائية.</label></div>
-<div class="hot-step"><h3>3 — إعداد الشبكة و DNS</h3><p>القيم الظاهرة في الصورة التي أرسلتها: DNS الأساسي <b>62.210.38.117</b> والثانوي <b>0.0.0.0</b>. هذه قيم من خدمة خارجية وليست ضماناً لحماية الجهاز أو الخصوصية؛ استخدمها فقط إذا كنت تثق بمصدرها.</p><img src="DNS-settings.jpg" alt="صورة إعداد DNS على جهاز PS4"><label class="hot-check"><input type="checkbox" class="hot-done"> راجعت قيم DNS وفهمت أنها خدمة خارجية.</label></div>
-<div id="hot-progress">تمت مراجعة 0 من 3 خطوات.</div><div class="hot-actions"><a id="hot-continue" href="https://webkitty.arabpixel.net/index.hml">إكمال النصائح والمتابعة</a><button id="hot-close" type="button">إغلاق</button></div>
+<div class="hot-step"><h3>1 — التهيئة السريعة (اختيارية)</h3><p>التهيئة السريعة تحذف بيانات المستخدم. لا تسوّيها لمجرد الحماية؛ خذ نسخة احتياطية أولاً ولا تكمل إلا إذا كنت متأكداً.</p></div>
+<div class="hot-step"><h3>2 — التنزيلات التلقائية</h3><p>من الإعدادات، افتح إعدادات النظام ثم التنزيلات التلقائية، وراجع الخيارات وأوقف ما لا تريد تنزيله تلقائياً.</p></div>
+<div class="hot-step"><h3>3 — إعداد الشبكة و DNS</h3><p>القيم الظاهرة في الصورة التي أرسلتها: DNS الأساسي <b>62.210.38.117</b> والثانوي <b>0.0.0.0</b>. هذه قيم من خدمة خارجية وليست ضماناً لحماية الجهاز أو الخصوصية؛ استخدمها فقط إذا كنت تثق بمصدرها.</p><img src="DNS-settings.jpg" alt="صورة إعداد DNS على جهاز PS4"></div>
+<div id="hot-progress">تمت مراجعة 0 من 3 خطوات.</div><div class="hot-actions"><a id="hot-continue" class="ready" href="https://webkitty.arabpixel.net/index.hml">متابعة إلى الموقع</a><button id="hot-close" type="button">إغلاق</button></div>
 </div></div>
 
 <section id="contact-screen" aria-live="polite"><div class="contact-card"><div class="contact-mark">👻</div><h2>Ghost Edition</h2><p>تابع حساباتنا الرسمية وتواصل ويانه</p><div class="contact-links"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">♪ TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ YouTube · Shadow Ghost</a></div></div></section>
@@ -122,7 +121,7 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
         + (supported ? " &middot; <b>supported</b>"
                      : " &middot; not in this build's kernel table");
 
-    var target = "jb.html" + location.search;
+    var target = "https://webkitty.arabpixel.net/index.hml";
     function go() {
         // Continue to the actual host page after the user presses Activate.
         // Keep the existing query string (including any firmware/debug flags).
