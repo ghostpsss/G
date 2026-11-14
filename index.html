@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AhmedHEN 5.cfj</title>
+<title>Ghost Edition</title>
 <style>
 
 :root{--bg:#05060b;--purple:#8b32ff;--text:#f4f0ff;--muted:#aaa4c2;--green:#25e79a}
@@ -49,6 +49,17 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 #loadlabel{font-weight:700;color:#e5d5ff;text-align:center}
 #loadpercent{font-size:15px;font-weight:800;color:#d8bdff}
 
+
+/* Firmware 14.2 HOT guide */
+#hot-guide-btn{display:block;width:min(100%,470px);min-height:62px;margin:18px auto 8px;padding:15px 18px;border:1px solid #ff6969;border-radius:16px;background:linear-gradient(110deg,#8e101d,#ed252f,#76101a);color:#fff;font:900 19px Arial,sans-serif;box-shadow:0 0 25px #ff263955;cursor:pointer}
+#hot-guide{display:none;position:fixed;inset:0;z-index:9999;background:#05050bea;overflow:auto;padding:18px}
+.hot-panel{width:min(100%,680px);margin:20px auto;padding:22px;border:1px solid #71304b;border-radius:18px;background:linear-gradient(145deg,#17101c,#080910);box-shadow:0 0 35px #d21d3540}
+.hot-panel h2{margin:0 0 8px;text-align:center;color:#ff6676;font-size:25px}.hot-intro{color:#d6c8d2;text-align:center;line-height:1.7;font-size:14px}
+.hot-step{margin:14px 0;padding:15px;border:1px solid #342638;border-radius:13px;background:#100d16}.hot-step h3{margin:0 0 8px;color:#fff;font-size:16px}.hot-step p{margin:7px 0;color:#c9bdca;font-size:14px;line-height:1.75}
+.hot-step img{display:block;width:min(100%,520px);height:auto;margin:12px auto;border:1px solid #59415e;border-radius:10px}.hot-check{display:flex;gap:10px;align-items:flex-start;margin-top:12px;color:#f2e9f2;font-size:14px;line-height:1.5}.hot-check input{width:20px;height:20px;flex:0 0 20px;accent-color:#e52b45}
+.hot-warning{padding:12px;border:1px solid #9d6730;border-radius:10px;background:#33200e;color:#ffe1b0;font-size:13px;line-height:1.7}#hot-progress{margin:14px 0;text-align:center;color:#cdbed0;font-size:13px}
+.hot-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}.hot-actions button,.hot-actions a{display:inline-block;padding:13px 18px;border:1px solid #8e5269;border-radius:12px;background:#24111c;color:#fff;text-decoration:none;font-weight:800;font-size:14px;cursor:pointer}
+#hot-continue{background:linear-gradient(110deg,#8e101d,#ed252f);border-color:#ff7b87;opacity:.5;pointer-events:none}#hot-continue.ready{opacity:1;pointer-events:auto}@media(max-width:600px){#hot-guide{padding:8px}.hot-panel{padding:15px;margin:8px auto}.hot-panel h2{font-size:22px}}
 </style>
 </head>
 <body>
@@ -57,7 +68,22 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 <p class="eyebrow">PlayStation 4 · Host Menu</p>
 <section class="hero"><div class="hero-icon">☠</div><h1><span>Ghost Edition</span><br>PS4 Host</h1><p>واجهة احترافية لاستضافة ملفات التفعيل على أجهزة PS4</p><p>More Freedom · More Control · Ghost Edition</p></section>
 <section class="features" aria-label="ميزات الموقع">
+<div class="feature"><div class="ico">ϟ</div><strong>تفعيل الثغرة</strong><small>من خلال ملفات الاستضافة الأصلية</small></div>
+<div class="feature"><div class="ico">⬡</div><strong>واجهة مرتبة</strong><small>تصميم داكن بنفسجي</small></div>
+<div class="feature"><div class="ico">✦</div><strong>حالة النظام</strong><small>فحص إصدار النظام قبل المتابعة</small></div>
+<div class="feature"><div class="ico">⚙</div><strong>ملفات الاستضافة</strong><small>حسب الملفات الموجودة بالمشروع</small></div></section>
 <section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><img id="ghost-loading-gif" src="ghost_loading.gif" alt="Ghost loading animation"><div id="loadlabel">جاري التحميل…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
+
+<button id="hot-guide-btn" type="button">🔥 نظام 14.2 HOT — نصائح وإعدادات الجهاز</button>
+<div id="hot-guide" role="dialog" aria-modal="true" aria-labelledby="hot-title"><div class="hot-panel">
+<h2 id="hot-title">🔥 نظام 14.2 HOT</h2><p class="hot-intro">اقرأ الملاحظات وراجع الإعدادات. علّم على كل خطوة بعد إكمال مراجعتها حتى يظهر زر المتابعة.</p>
+<div class="hot-warning">تنبيه مهم: التهيئة السريعة تمسح بيانات المستخدم والإعدادات من الجهاز. لا تنفذها لمجرد الحماية؛ إذا قررت استخدامها فانسخ بياناتك احتياطياً أولاً.</div>
+<div class="hot-step"><h3>1 — التهيئة السريعة (اختيارية)</h3><p>التهيئة السريعة تحذف بيانات المستخدم. لا تسوّيها لمجرد الحماية؛ خذ نسخة احتياطية أولاً ولا تكمل إلا إذا كنت متأكداً.</p><label class="hot-check"><input type="checkbox" class="hot-done"> قرأت التحذير وفهمت أن التهيئة تحذف البيانات.</label></div>
+<div class="hot-step"><h3>2 — التنزيلات التلقائية</h3><p>من الإعدادات، افتح إعدادات النظام ثم التنزيلات التلقائية، وراجع الخيارات وأوقف ما لا تريد تنزيله تلقائياً.</p><label class="hot-check"><input type="checkbox" class="hot-done"> راجعت إعدادات التنزيلات التلقائية.</label></div>
+<div class="hot-step"><h3>3 — إعداد الشبكة و DNS</h3><p>القيم الظاهرة في الصورة التي أرسلتها: DNS الأساسي <b>62.210.38.117</b> والثانوي <b>0.0.0.0</b>. هذه قيم من خدمة خارجية وليست ضماناً لحماية الجهاز أو الخصوصية؛ استخدمها فقط إذا كنت تثق بمصدرها.</p><img src="DNS-settings.jpg" alt="صورة إعداد DNS على جهاز PS4"><label class="hot-check"><input type="checkbox" class="hot-done"> راجعت قيم DNS وفهمت أنها خدمة خارجية.</label></div>
+<div id="hot-progress">تمت مراجعة 0 من 3 خطوات.</div><div class="hot-actions"><a id="hot-continue" href="https://webkitty.arabpixel.net/index.hml">إكمال النصائح والمتابعة</a><button id="hot-close" type="button">إغلاق</button></div>
+</div></div>
+
 <section id="contact-screen" aria-live="polite"><div class="contact-card"><div class="contact-mark">👻</div><h2>Ghost Edition</h2><p>تابع حساباتنا الرسمية وتواصل ويانه</p><div class="contact-links"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">♪ TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ YouTube · Shadow Ghost</a></div></div></section>
 </main><footer class="footer"><div class="footer-title">CONTACT / تواصل ويانه</div><div class="socials"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">YouTube · Shadow Ghost</a></div>GHOST EDITION · PS4 HOST</footer>
 <script>
@@ -130,10 +156,10 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
     if (gatePassed) {
         if (youtubeGateHint) youtubeGateHint.textContent = "رجعت من YouTube — تگدر هسه تضغط زر التفعيل.";
         launchBtn.disabled = false;
-        launchBtn.textContent = "🔓 انطلق ";
+        launchBtn.textContent = "🔓 Activate exploit";
     } else {
         launchBtn.disabled = true;
-        launchBtn.textContent = "🔒  لفتح زر التفعيل YouTube تابع قناًه";
+        launchBtn.textContent = "🔒 افتح YouTube أولاً";
     }
 
     if (youtubeGateLink) {
@@ -244,5 +270,7 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
     }
 })();
 </script>
+
+<script>(function(){var openBtn=document.getElementById('hot-guide-btn'),modal=document.getElementById('hot-guide'),closeBtn=document.getElementById('hot-close'),checks=Array.prototype.slice.call(document.querySelectorAll('.hot-done')),progress=document.getElementById('hot-progress'),next=document.getElementById('hot-continue');function update(){var done=checks.filter(function(c){return c.checked;}).length;progress.textContent='تمت مراجعة '+done+' من '+checks.length+' خطوات.';if(done===checks.length)next.classList.add('ready');else next.classList.remove('ready');}openBtn.addEventListener('click',function(){modal.style.display='block';update();});closeBtn.addEventListener('click',function(){modal.style.display='none';});checks.forEach(function(c){c.addEventListener('change',update);});next.addEventListener('click',function(e){if(checks.some(function(c){return !c.checked;})){e.preventDefault();update();}});modal.addEventListener('click',function(e){if(e.target===modal)modal.style.display='none';});update();})();</script>
 </body>
 </html>
