@@ -61,20 +61,76 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 .hot-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}.hot-actions button,.hot-actions a{display:inline-block;padding:13px 18px;border:1px solid #8e5269;border-radius:12px;background:#24111c;color:#fff;text-decoration:none;font-weight:800;font-size:14px;cursor:pointer}
 #hot-continue{background:linear-gradient(110deg,#8e101d,#ed252f);border-color:#ff7b87;opacity:.5;pointer-events:none}#hot-continue.ready{opacity:1;pointer-events:auto}@media(max-width:600px){#hot-guide{padding:8px}.hot-panel{padding:15px;margin:8px auto}.hot-panel h2{font-size:22px}}
 </style>
+
+<style id="ps4-dashboard-redesign">
+:root{--bg:#070a12;--purple:#2878ff;--text:#f3f6ff;--muted:#9aa8c3;--green:#47e6a1}
+html,body{background:#070a12;color:var(--text)}
+body{background:
+ radial-gradient(ellipse at 50% -15%,#174b9a55 0,transparent 48%),
+ linear-gradient(180deg,#080d19 0%,#070a12 55%,#05070d 100%);
+ min-height:100vh}
+#brand{max-width:980px;padding:17px 22px;gap:12px;border-bottom:1px solid #1c2b45}
+#brand img{width:42px;height:42px;filter:drop-shadow(0 0 12px #2878ff88)}
+#brand b{font-size:17px;letter-spacing:.12em}
+#brand b:after{content:"GHOST EDITION";font-size:9px;letter-spacing:.25em;color:#8295b8}
+.brand-tag{margin-left:auto;padding:7px 11px;border:1px solid #29466e;border-radius:7px;color:#91baff;font-size:10px;letter-spacing:.15em}
+#wrap{max-width:980px;padding:30px 22px 38px}
+.hero{min-height:0;margin:8px auto 20px;padding:28px 22px;border:1px solid #263d61;border-radius:17px;text-align:center;
+ background:linear-gradient(145deg,#101b2d,#0a101d 70%,#10172a);
+ box-shadow:0 18px 50px #0008,inset 0 1px #ffffff0b}
+.panel-kicker{color:#70a9ff;font-size:10px;font-weight:800;letter-spacing:.24em;margin-bottom:10px}
+.panel-title{font-size:clamp(21px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin:0 0 17px}
+#state{display:inline-block;margin:0 auto 8px;padding:9px 14px;border:1px solid #29466e;border-radius:8px;background:#0a1424;color:#c8dcff;font-size:13px}
+#det,#cache{font-size:12px;color:#91a2bf;margin:8px 0;min-height:16px}
+#det b{color:#9cc4ff}#cache.cacheok{color:#5ee6ae}
+#launch{width:min(100%,440px);min-height:58px;margin:20px auto 0;border:1px solid #75aaff;border-radius:11px;
+ background:linear-gradient(110deg,#1555b8,#2878ff 55%,#174ca4);box-shadow:0 8px 28px #1766dc40,inset 0 1px #ffffff44;
+ font-size:16px;letter-spacing:.02em}
+#launch:disabled{opacity:.55}
+.hint{font-size:12px;color:#9aabc7;margin-top:17px}
+#youtube-gate-link{border:1px solid #31598d;border-radius:9px;background:#0c1b31;color:#cfe2ff;box-shadow:none;font-size:12px}
+#youtube-gate-link:focus{outline-color:#83b5ff}
+.section-divider{display:flex;align-items:center;gap:12px;margin:28px 0 12px;color:#6f86a9;font-size:10px;letter-spacing:.2em}
+.section-divider:before,.section-divider:after{content:"";height:1px;flex:1;background:#1c2b45}
+#hot-guide-btn{width:100%;min-height:58px;margin:0 auto 12px;padding:13px 17px;border:1px solid #8c3548;border-radius:11px;
+ background:linear-gradient(110deg,#37131f,#681c2c 55%,#3c1421);box-shadow:0 8px 25px #a51f3822;font-size:15px;text-align:center}
+#hot-guide-btn span{display:block;margin-top:5px;color:#e8b9c2;font-size:11px;font-weight:500}
+#hot-guide{background:#03060deF;backdrop-filter:blur(8px)}
+.hot-panel{border:1px solid #633344;border-radius:16px;background:linear-gradient(145deg,#17121d,#090c15);box-shadow:0 20px 60px #000b}
+.hot-panel h2{font-size:23px}
+.hot-step{border:1px solid #2b3040;background:#0d121e}
+.hot-step h3{color:#eaf1ff}
+.hot-step p,.hot-intro{color:#b2bfd5}
+.hot-check{color:#e2eaff}
+.hot-check input{accent-color:#3985ff}
+.hot-warning{border-color:#72552c;background:#241d12;color:#f4dcae}
+.hot-actions button,.hot-actions a{border:1px solid #405477;border-radius:9px;background:#142139}
+#hot-continue{background:linear-gradient(110deg,#1657b9,#2878ff);border-color:#79adff}
+#contact-screen .contact-card{border-color:#29466e;background:linear-gradient(145deg,#101b2d,#090e18)}
+.contact-card h2{background:linear-gradient(100deg,#fff,#9fc6ff 65%,#438aff);-webkit-background-clip:text;background-clip:text}
+.contact-links a,.socials a{border-color:#29466e;background:#0d192b;color:#d9e8ff}
+.footer{max-width:980px;border-top:1px solid #1c2b45;color:#71819e}
+.footer-title{color:#a9c8ff;font-size:11px;letter-spacing:.2em}
+.footer-title span{color:#3c83ee}
+.socials a{font-size:11px}
+#loadtrack{background:#101d32;border-color:#29466e}
+#loadfill{background:linear-gradient(90deg,#1763d1,#83b7ff);box-shadow:0 0 12px #2878ff}
+#ghost-loading-gif{border-color:#416da8;box-shadow:0 0 22px #2878ff44}
+@media(max-width:600px){
+ #brand{padding:14px 15px}#brand img{width:36px;height:36px}
+ #brand b{font-size:14px}.brand-tag{font-size:8px;padding:6px 8px}
+ #wrap{padding:22px 14px 28px}.hero{padding:23px 14px}
+ #launch{font-size:15px}.hot-panel{padding:15px}
+}
+</style>
+
 </head>
 <body>
-<header id="brand"><img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost Edition logo" onerror="this.onerror=null;this.src='logo_raw.png'"><b>Ghost Edition</b></header>
+<header id="brand"><img src="631fd36783d79e1e2ea3ea7338b0b8b0.jpg" alt="Ghost Edition logo" onerror="this.onerror=null;this.src='logo_raw.png'"><b>GHOST EDITION</b><span class="brand-tag">PLAYSTATION 4</span></header>
 <main id="wrap">
-<p class="eyebrow">PlayStation 4 · Host Menu</p>
-<section class="hero"><div class="hero-icon">☠</div><h1><span>Ghost Edition</span><br>PS4 Host</h1><p>واجهة احترافية لاستضافة ملفات التفعيل على أجهزة PS4</p><p>More Freedom · More Control · Ghost Edition</p></section>
-<section class="features" aria-label="ميزات الموقع">
-<div class="feature"><div class="ico">ϟ</div><strong>تفعيل الثغرة</strong><small>من خلال ملفات الاستضافة الأصلية</small></div>
-<div class="feature"><div class="ico">⬡</div><strong>واجهة مرتبة</strong><small>تصميم داكن بنفسجي</small></div>
-<div class="feature"><div class="ico">✦</div><strong>حالة النظام</strong><small>فحص إصدار النظام قبل المتابعة</small></div>
-<div class="feature"><div class="ico">⚙</div><strong>ملفات الاستضافة</strong><small>حسب الملفات الموجودة بالمشروع</small></div></section>
-<section class="hero"><div id="state">Detecting firmware…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><img id="ghost-loading-gif" src="ghost_loading.gif" alt="Ghost loading animation"><div id="loadlabel">جاري التحميل…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
+<section class="hero"><div class="panel-kicker">SYSTEM STATUS</div><div class="panel-title">لوحة جهاز PlayStation 4</div><div id="state">جاري فحص النظام…</div><div id="det"></div><div id="cache"></div><button id="launch" type="button" disabled>Preparing host…</button><div id="loadbox" aria-live="polite"><img id="ghost-loading-gif" src="ghost_loading.gif" alt="Ghost loading animation"><div id="loadlabel">جاري التحميل…</div><div id="loadtrack"><div id="loadfill"></div></div><span id="loadpercent">0%</span></div><p class="hint" id="youtube-gate-hint">حتى يتفعل الزر، افتح رابط YouTube وارجع لهالصفحة.</p><a id="youtube-gate-link" class="social-link" href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ افتح YouTube · Shadow Ghost</a></section>
 
-<button id="hot-guide-btn" type="button">🔥 نظام 14.2 HOT — نصائح وإعدادات الجهاز</button>
+<div class="section-divider"><span>DEVICE GUIDE</span></div><button id="hot-guide-btn" type="button">14.2 HOT <span>دليل الإعدادات والتنبيهات</span></button>
 <div id="hot-guide" role="dialog" aria-modal="true" aria-labelledby="hot-title"><div class="hot-panel">
 <h2 id="hot-title">🔥 نظام 14.2 HOT</h2><p class="hot-intro">اقرأ الملاحظات وراجع الإعدادات. علّم على كل خطوة بعد إكمال مراجعتها حتى يظهر زر المتابعة.</p>
 <div class="hot-warning">تنبيه مهم: التهيئة السريعة تمسح بيانات المستخدم والإعدادات من الجهاز. لا تنفذها لمجرد الحماية؛ إذا قررت استخدامها فانسخ بياناتك احتياطياً أولاً.</div>
@@ -85,7 +141,7 @@ h1 span{background:linear-gradient(100deg,#fff,#b78aff 55%,#792cff);-webkit-back
 </div></div>
 
 <section id="contact-screen" aria-live="polite"><div class="contact-card"><div class="contact-mark">👻</div><h2>Ghost Edition</h2><p>تابع حساباتنا الرسمية وتواصل ويانه</p><div class="contact-links"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">♪ TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">▶ YouTube · Shadow Ghost</a></div></div></section>
-</main><footer class="footer"><div class="footer-title">CONTACT / تواصل ويانه</div><div class="socials"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">YouTube · Shadow Ghost</a></div>GHOST EDITION · PS4 HOST</footer>
+</main><footer class="footer"><div class="footer-title">GHOST EDITION <span>·</span> COMMUNITY</div><div class="socials"><a href="https://www.tiktok.com/@5.cfj" target="_blank" rel="noopener noreferrer">TikTok · @5.cfj</a><a href="https://www.youtube.com/results?search_query=%40G_n105" target="_blank" rel="noopener noreferrer">YouTube · Shadow Ghost</a></div>GHOST EDITION · PS4 HOST</footer>
 <script>
 (function () {
     var stateEl = document.getElementById("state");
